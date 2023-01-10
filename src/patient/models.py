@@ -4,23 +4,35 @@ from django.contrib.auth.models import User
 from monitoring.models import Service, RendezVous, Ordonnance, DossierMedical
     
 class Secretaire(User):
-    pass
+    age= models.PositiveIntegerField(null=True)
+    statut=models.BooleanField(default=False)
+    telephone = models.CharField(max_length=20,null=False)
+    adresse = models.CharField(max_length=40)
+    profile= models.ImageField(upload_to='profile_pic/SecretaireProfilePic/',null=True,blank=True)
+    statut=models.BooleanField(default=False)
 
 
 class Docteur(User):
+    age= models.PositiveIntegerField(null=True)
+    statut=models.BooleanField(default=False)
+    telephone = models.CharField(max_length=20,null=False)
+    adresse = models.CharField(max_length=40)
+    profile= models.ImageField(upload_to='profile_pic/DocteurProfilePic/',null=True,blank=True)
+    specialite= models.CharField(max_length=50)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     rendez_vous = models.OneToManyField(RendezVous, related_name='docteur')
-    ordonnances = models.ManyToManyField(Ordonnance)
+    ordonnances = models.OneToManyField(Ordonnance, related_name='docteur')
+
 
 
 class Patient(User):
-    profile_pic= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
-    address = models.CharField(max_length=40)
-    mobile = models.CharField(max_length=20,null=False)
+    age= models.PositiveIntegerField(null=True)
+    profile= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
+    telephone = models.CharField(max_length=20,null=False)
+    adresse = models.CharField(max_length=40)
     symptoms = models.CharField(max_length=100,null=False)
-    assignedDoctorId = models.PositiveIntegerField(null=True)
     admitDate=models.DateField(auto_now=True)
-    status=models.BooleanField(default=False)
+    statut=models.BooleanField(default=False)
     secretaire = models.ForeignKey(Secretaire, on_delete=models.CASCADE)
     docteurs = models.ManyToManyField(Docteur)
     services = models.ManyToManyField(Service)
