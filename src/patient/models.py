@@ -5,6 +5,7 @@ from monitoring.models import Service, RendezVous, Ordonnance, DossierMedical
     
 class Secretaire(User):
     age= models.PositiveIntegerField(null=True)
+    sexe = models.CharField(max_length=1, choices=[('M', 'Masculin'),('F', 'Féminin')], null=True)
     statut=models.BooleanField(default=False)
     telephone = models.CharField(max_length=20,null=False)
     adresse = models.CharField(max_length=40)
@@ -14,6 +15,7 @@ class Secretaire(User):
 
 class Docteur(User):
     age= models.PositiveIntegerField(null=True)
+    sexe = models.CharField(max_length=1, choices=[('M', 'Masculin'),('F', 'Féminin')], null=True)
     statut=models.BooleanField(default=False)
     telephone = models.CharField(max_length=20,null=False)
     adresse = models.CharField(max_length=40)
@@ -27,6 +29,8 @@ class Docteur(User):
 
 class Patient(User):
     age= models.PositiveIntegerField(null=True)
+    sexe = models.CharField(max_length=1, choices=[('M', 'Masculin'),('F', 'Féminin')], null=True)
+    groupe_sanguin=models.CharField(max_length=10, null=True)
     profile= models.ImageField(upload_to='profile_pic/PatientProfilePic/',null=True,blank=True)
     telephone = models.CharField(max_length=20,null=False)
     adresse = models.CharField(max_length=40)
