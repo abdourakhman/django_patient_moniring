@@ -1,4 +1,4 @@
-{% extends 'hospital/homebase.html' %}
+{% extends 'layout/homebase.html' %}
 {% load static %}
 
 
@@ -53,20 +53,20 @@
 
 <div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
   <br>
-  <h5 class="display-3 glow">Hospital Management System</h5>
+  <h5 class="display-3 glow">Patient Monitoring System</h5>
   <br><br><br><br><br>
   <p>
-  <h3>Emergency ?</h3>
+  <h3>Urgence ?</h3>
 
   <p class="lead">
-    <a class="btn btn-danger btn-lg" href="/patientclick" role="button">Take Appointment Now!</a>
+    <a class="btn btn-danger btn-lg" href="/patientclick" role="button">Prendre Rendez-vous maintenant !</a>
   </p>
   <br><br>
 </div>
 
 <br><br><br><br>
 
-{% include "hospital/admin_doctor_patient_card.html" %}
+{% include "home/doctor_patient_assistant_card.html" %}
 <br><br><br>
 
 

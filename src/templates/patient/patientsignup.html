@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
 {% load widget_tweaks %}
-<html lang="en" dir="ltr">
+<html lang="fr" dir="ltr">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
+  <title>PMS - Django</title>
   <style type="text/css">
     body {
       color: #aa082e;
@@ -52,7 +52,7 @@
 
 
 <body>
-  {% include "hospital/navbar.html" %}
+  {% include "layout/navbar.html" %}
   <br>
   <br>
   <br>
@@ -67,53 +67,60 @@
     <div class="container register-form">
       <div class="form">
         <div class="note">
-          <p>Register to Hospital</p>
+          <p>ENREGISTRER UN PATIENT</p>
         </div>
 
         <div class="form-content">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
+                {% render_field patientForm.prenom class="form-control" placeholder="Prénom " %}
               </div>
               <div class="form-group">
-                {% render_field userForm.username class="form-control" placeholder="Username" %}
+                {% render_field patientForm.naissance class="form-control" placeholder="Date naissance" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.address class="form-control" placeholder="Address" %}
+                {% render_field patientForm.telephone class="form-control" placeholder="contact" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.symptoms class="form-control" placeholder="Symptoms" %}
+                {% render_field patientForm.goupe_sanguin class="form-control"  placeholder="groupe sanguin" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.profile_pic required="required" class="form-control" placeholder="Profile Picture" %}
+                {% render_field patientForm.secretaire class="form-control"  placeholder="Reçu par" %}
               </div>
+              
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                {% render_field userForm.last_name class="form-control" placeholder="Last Name" %}
+                {% render_field patientForm.nom class="form-control" placeholder=" Nom" %}
               </div>
               <div class="form-group">
-                {% render_field userForm.password class="form-control" placeholder="Password" %}
+                {% render_field userForm.password class="form-control" placeholder="password" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.mobile class="form-control" pattern="[6789][0-9]{9}" placeholder="Contact Number" %}
+                {% render_field patientForm.sexe class="form-control" placeholder=" Sexe" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
+                {% render_field patientForm.symptoms class="form-control"  placeholder="Pathologie ou trauma patient" %}
+              </div>
+              <div class="form-group">
+                {% render_field patientForm.service class="form-control"  placeholder="Orienté en" %}
+              </div>
+              <div class="form-group">
+                {% render_field patientForm.profile class="form-control" placeholder="profile" %}
               </div>
 
             </div>
           </div>
-          <button type="submit" class="btnSubmit">Register</button>
-          <div class="text-center">Already have an account? <a href="patientlogin">Login here</a></div>
+          <button type="submit" class="btnSubmit">Enregister</button>
+          <div class="text-center">Déja membre? <a href="patientlogin">S'identifier ici </a></div>
         </div>
       </div>
     </div>
 
   </form>
 
-  {% include "hospital/footer.html" %}
+  {% include "layout/footer.html" %}
 </body>
 
 
