@@ -18,7 +18,7 @@ def home_view(request):
 def adminclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'hospital/adminclick.html')
+    return render(request,'admin/adminclick.html')
 
 
 #for showing signup/login button for doctor(by sumit)
@@ -29,7 +29,7 @@ def doctorclick_view(request):
 def assistantclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'hospital/assistantclick.html')
+    return render(request,'assistant/assistantclick.html')
 
 
 #for showing signup/login button for patient(by sumit)
@@ -52,7 +52,7 @@ def admin_signup_view(request):
             my_admin_group = Group.objects.get_or_create(name='ADMIN')
             my_admin_group[0].user_set.add(user)
             return HttpResponseRedirect('adminlogin')
-    return render(request,'hospital/adminsignup.html',{'form':form})
+    return render(request,'admin/adminsignup.html',{'form':form})
 
 
 
@@ -77,14 +77,15 @@ def doctor_signup_view(request):
     return render(request,'docteur/doctorsignup.html',context=mydict)
 
 def assistant_signup_view(request):
-    userForm=forms.AssistantUserForm()
+    userForm=forms.UserForm()
     AssistantForm=forms.AssistantForm()
     mydict={'userForm':userForm,'assistantForm':AssistantForm}
     if request.method=='POST':
-        userForm=forms.AssistantUserForm(request.POST)
+        userForm=forms.UserForm(request.POST)
         AssistantForm=forms.AssistantForm(request.POST,request.FILES)
         if userForm.is_valid() and AssistantForm.is_valid():
             user=userForm.save()
+            print('user created')
             user.set_password(user.password)
             user.save()
             assistant=AssistantForm.save(commit=False)
@@ -93,7 +94,7 @@ def assistant_signup_view(request):
             my_assistant_group = Group.objects.get_or_create(name='SECRETAIRE')
             my_assistant_group[0].user_set.add(user)
         return HttpResponseRedirect('assistantlogin')
-    return render(request,'hospital/assistantsignup.html',context=mydict)
+    return render(request,'assistant/assistantsignup.html',context=mydict)
 
 
 def patient_signup_view(request):
@@ -101,7 +102,7 @@ def patient_signup_view(request):
     patientForm=forms.PatientForm()
     mydict={'userForm':userForm,'patientForm':patientForm}
     if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
+        userForm=forms.UserForm(request.POST)
         patientForm=forms.PatientForm(request.POST,request.FILES)
         if userForm.is_valid() and patientForm.is_valid():
             user=userForm.save()
@@ -127,7 +128,7 @@ def is_admin(user):
 def is_doctor(user):
     return user.groups.filter(name='DOCTOR').exists()
 def is_assistant(user):
-    return user.groups.filter(name='ASSISTANT').exists()
+    return user.groups.filter(name='SECRETAIRE').exists()
 def is_patient(user):
     return user.groups.filter(name='PATIENT').exists()
 
@@ -137,19 +138,21 @@ def afterlogin_view(request):
     if is_admin(request.user):
         return redirect('admin-dashboard')
     elif is_doctor(request.user):
-        accountapproval=models.Doctor.objects.all().filter(user_id=request.user.id,status=True)
+        accountapproval=models.Docteur.objects.all().filter(user_id=request.user.id,status=True)
         if accountapproval:
             return redirect('doctor-dashboard')
         else:
             return render(request,'hospital/doctor_wait_for_approval.html')
     elif is_assistant(request.user):
-        accountapproval=models.Assistant.objects.all().filter(user_id=request.user.id,status=True)
+        #ajouter un statut
+        accountapproval=models.Secretaire.objects.all().filter(user_id=request.user.id) 
         if accountapproval:
             return redirect('assistant-dashboard')
         else:
             return render(request,'hospital/assistant_wait_for_approval.html')    
     elif is_patient(request.user):
-        accountapproval=models.Patient.objects.all().filter(user_id=request.user.id,status=True)
+        #ajouter un statut
+        accountapproval=models.Patient.objects.all().filter(user_id=request.user.id)
         if accountapproval:
             return redirect('patient-dashboard')
         else:
@@ -780,15 +783,17 @@ def delete_appointment_view(request,pk):
 @login_required(login_url='assistantlogin')
 @user_passes_test(is_assistant)
 def assistant_dashboard_view(request):
-    patientcount=models.Patient.objects.all().filter(status=True,assignedassistantId=request.user.id).count()
-    assistantcount=models.Assistant.objects.all().filter(status=True,assignedassistantId=request.user.id).count()
-    appointmentcount=models.Appointment.objects.all().filter(status=True,assistantId=request.user.id).count()
-    patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedassistantName=request.user.first_name).count()
+    patientcount=models.Patient.objects.all().filter(secretaire_id=request.user.id).count()
+    print(request.user.id)
+    assistantcount=models.Secretaire.objects.all().filter(user_id=request.user.id).count()
+    appointmentcount=models.RendezVous.objects.all().filter(patients_id=request.user.id).count()
+    #patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedassistantName=request.user.first_name).count()
      
     #for  table in assistant dashboard
-    appointments=models.Appointment.objects.all().filter(status=True,assistantId=request.user.id).order_by('-id')
-    assistant=models.Assistant.objects.get(user_id=request.user.id), #for profile picture of assistant in sidebar
-    return render(request,'hospital/assistant_dashboard.html',{'assistant':assistant})
+    #ajouter statut dans filter et donc depuis le modele
+    appointments=models.RendezVous.objects.all().filter(patients_id=request.user.id).order_by('-id')
+    assistant=models.Secretaire.objects.get(user_id=request.user.id), #for profile picture of assistant in sidebar
+    return render(request,'assistant/assistant_dashboard.html',{'assistant':assistant})
     
 
 def assistant_patient_view(request):
@@ -1003,7 +1008,7 @@ def patient_discharge_view(request):
 #------------------------ ABOUT US AND CONTACT US VIEWS START ------------------------------
 #---------------------------------------------------------------------------------
 def aboutus_view(request):
-    return render(request,'hospital/aboutus.html')
+    return render(request,'about/aboutus.html')
 
 def contactus_view(request):
     sub = forms.ContactusForm()
@@ -1014,8 +1019,8 @@ def contactus_view(request):
             name=sub.cleaned_data['Name']
             message = sub.cleaned_data['Message']
             send_mail(str(name)+' || '+str(email),message,settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
-            return render(request, 'hospital/contactussuccess.html')
-    return render(request, 'hospital/contactus.html', {'form':sub})
+            return render(request, 'contact/contactussuccess.html')
+    return render(request, 'contact/contactus.html', {'form':sub})
 
 
 #---------------------------------------------------------------------------------

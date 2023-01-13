@@ -20,14 +20,14 @@ class DoctorForm(forms.ModelForm):
        
 
 
-# #for admin signup
-# class AdminSigupForm(forms.ModelForm):
-#     class Meta:
-#         model=User
-#         fields=['first_name','last_name','username','password']
-#         widgets = {
-#         'password': forms.PasswordInput()
-#         }
+#for admin signup
+class AdminSigupForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields=['first_name','last_name','username','password']
+        widgets = {
+        'password': forms.PasswordInput()
+        }
 
 
 # #for student related form
@@ -53,6 +53,13 @@ class PatientForm(forms.ModelForm):
         widget = {'naissance':forms.DateInput()}
 
 
+class AssistantForm(forms.ModelForm):
+    class Meta:
+        model=models.Secretaire
+        fields = ['prenom','nom','age','sexe','telephone','adresse','profile']
+ 
+
+
 # # class AppointmentForm(forms.ModelForm):
 # #     doctorId=forms.ModelChoiceField(queryset=models.Docteur.objects.all().filter(status=True),empty_label="Doctor Name and Department", to_field_name="user_id")
 # #     patientId=forms.ModelChoiceField(queryset=models.Patient.objects.all().filter(status=True),empty_label="Patient Name and Symptoms", to_field_name="user_id")
@@ -68,9 +75,9 @@ class PatientForm(forms.ModelForm):
 # #         fields=['description','status']
 
 
-# #for contact us page
-# class ContactusForm(forms.Form):
-#     Name = forms.CharField(max_length=30)
-#     Email = forms.EmailField()
-#     Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
+#for contact us page
+class ContactusForm(forms.Form):
+    Name = forms.CharField(max_length=30)
+    Email = forms.EmailField()
+    Message = forms.CharField(max_length=500,widget=forms.Textarea(attrs={'rows': 3, 'cols': 30}))
 

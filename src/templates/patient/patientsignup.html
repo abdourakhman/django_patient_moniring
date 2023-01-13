@@ -77,16 +77,16 @@
                 {% render_field patientForm.prenom class="form-control" placeholder="Prénom " %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.naissance class="form-control" placeholder="Date naissance" %}
+                {% render_field patientForm.naissance class="form-control" type="date" placeholder="Date naissance" %}
               </div>
               <div class="form-group">
                 {% render_field patientForm.telephone class="form-control" placeholder="contact" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.goupe_sanguin class="form-control"  placeholder="groupe sanguin" %}
+                {% render_field patientForm.groupe_sanguin class="form-control"  placeholder="groupe sanguin" %}
               </div>
               <div class="form-group">
-                {% render_field patientForm.secretaire class="form-control"  placeholder="Reçu par" %}
+                {% render_field patientForm.secretaire class="form-control"  value="Reçu par" %}
               </div>
               
             </div>

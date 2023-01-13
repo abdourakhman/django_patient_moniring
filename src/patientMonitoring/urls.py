@@ -40,14 +40,14 @@ urlpatterns = [
     path('patientsignup', views.patient_signup_view),
     path('assistantsignup', views.assistant_signup_view,name='assistantsignup'),
     
-    path('adminlogin', LoginView.as_view(template_name='hospital/adminlogin.html')),
+    path('adminlogin', LoginView.as_view(template_name='admin/adminlogin.html')),
     path('doctorlogin', LoginView.as_view(template_name='docteur/doctorlogin.html')),
     path('patientlogin', LoginView.as_view(template_name='patient/patientlogin.html')),
-    path('assistantlogin', LoginView.as_view(template_name='hospital/assistantlogin.html')),
+    path('assistantlogin', LoginView.as_view(template_name='assistant/assistantlogin.html')),
 
 
     path('afterlogin', views.afterlogin_view,name='afterlogin'),
-    path('logout', LogoutView.as_view(template_name='hospital/index.html'),name='logout'),
+    path('logout', LogoutView.as_view(template_name='home/index.html'),name='logout'),
 
 
     path('admin-dashboard', views.admin_dashboard_view,name='admin-dashboard'),

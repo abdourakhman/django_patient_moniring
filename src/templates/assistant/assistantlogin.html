@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 {% load widget_tweaks %}
-<html lang="en" dir="ltr">
+<html lang="fr" dir="ltr">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
+  <title>PMS - Django</title>
 
 
   <style type="text/css">
@@ -52,18 +52,18 @@
 </head>
 
 <body>
-  {% include "hospital/navbar.html" %}
+  {% include "layout/navbar.html" %}
   <br>
   <br>
   <br><br>
 
-  <!--- login page for doctor by admin(sumit)  ---------->
+  <!--- login page for doctor by admin  ---------->
   <form method="post">
     {% csrf_token %}
     <div class="container register-form">
       <div class="form">
         <div class="note">
-          <p>Doctor Login Page</p>
+          <p>CONNEXION SECRETAIRE</p>
         </div>
 
         <div class="form-content">
@@ -83,8 +83,8 @@
 
             </div>
           </div>
-          <button type="submit" class="btnSubmit">Login</button>
-          <div class="text-center">Do not have account? <a href="doctorsignup">Signup here</a></div>
+          <button type="submit" class="btnSubmit">S'identifier</button>
+          <div class="text-center">Pas encore de compte? <a href="/assistantsignup">S'inscrire ici</a></div>
         </div>
       </div>
     </div>
@@ -94,7 +94,7 @@
   <br><br><br>
   
 
-  {% include "hospital/footer.html" %}
+  {% include "layout/footer.html" %}
 </body>
 
 </html>
